@@ -1,6 +1,14 @@
 const bookingRepository = require("../repository/bookingRepository");
+const passengerRepository = require("../repository/passengerRepository");
 
-const getPassengerBookings = async (passengerId) => {};
+const getPassengerBookings = async (passengerId) => {
+  try {
+    const passengerDetail = passengerRepository.findPassengerById(passengerId);
+    if (!passengerDetail) throw new Error("Passenger Not Found");
+
+    return passengerDetail;
+  } catch (error) {}
+};
 
 const provideFeedback = async (passengerId, bookingId, rating, feedback) => {
   // to give the rating and feedbck we have to find out the booking right ??
