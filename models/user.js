@@ -21,15 +21,15 @@ const userSchema = new mongoose.Schema({
 
 // this is a middleware which runs before saving the password 
 userSchema.pre("save", async function(){
-    if(!this.isModified("password")) next() ;
-    this.password = await bcrypt(this.password , 10);
+    if(!this.isModified("password")) return next() ;
+    this.password = await bcrypt.hash(this.password , 10);
     next();
 
 })
 
 userSchema.methods.comparePassword = async function(password)
 {
-    return bcrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password);
 }
 
 const User = mongoose.model("User", userSchema);
