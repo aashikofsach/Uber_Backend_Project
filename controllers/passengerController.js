@@ -19,7 +19,12 @@ const getPassengerBookings = async (req, res) => {
 const provideFeedback = async (req, res) => {
   try {
     const { bookingId, feedback, rating } = req.body;
-    passengerService.provideFeedback(req.user._id, bookingId, feedback, rating);
+    passengerService.provideFeedback({
+      passengerId: req.user._id,
+      bookingId,
+      feedback,
+      rating,
+    });
     return res.status(201).send({
       sucess: true,
       error: null,

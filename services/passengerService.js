@@ -10,7 +10,8 @@ const getPassengerBookings = async (passengerId) => {
   } catch (error) {}
 };
 
-const provideFeedback = async (passengerId, bookingId, rating, feedback) => {
+
+const provideFeedback = async ({passengerId, bookingId, rating, feedback}) => {
   // to give the rating and feedbck we have to find out the booking right ??
 
   const booking = await bookingRepository.findBooking({
