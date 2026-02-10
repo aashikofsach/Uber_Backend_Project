@@ -21,9 +21,9 @@ const userSchema = new mongoose.Schema({
 
 // this is a middleware which runs before saving the password 
 userSchema.pre("save", async function(){
-    if(!this.isModified("password")) return next() ;
+    if(!this.isModified("password")) return ;
     this.password = await bcrypt.hash(this.password , 10);
-    next();
+
 
 })
 
