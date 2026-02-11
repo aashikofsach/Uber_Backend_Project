@@ -47,7 +47,13 @@ io.on("connection",(socket)=> {
     await locationService.setDriverSocket(driverId , socket.id)
   })
 
-})
+  socket.on("disconnect", async () => {
+    const driverId = await locationService.getDriverSocket(driverId);
+    if(driverId)
+       await locationService.delDriverSocket(driverId);
+  })
+
+}) 
 
 redisClient.on("connect", ()=>
 {

@@ -4,17 +4,22 @@ class LocationService {
 
    async setDriverSocket(driverId , socketId)
     {
-        await redisClient.set(`driver: ${driverId}`,socketId)
+        await redisClient.set(`driver:${driverId}`,socketId)
 
     }
 
     async getDriverSocket(driverId)
     {
-       return await redisClient.get(driverId)
+       return await redisClient.get(`driver:${driverId}`)
+    }
+
+    async delDriverSocket(driverId)
+    {
+        return await redisClient.del(`driver:${driverId}`)
+
     }
 
 }
 
 
-
-export default locationService;
+module.exports = new LocationService();
