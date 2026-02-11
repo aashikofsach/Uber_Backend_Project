@@ -44,13 +44,14 @@ server.listen(process.env.PORT, () => {
 io.on("connection",(socket)=> {
 
   socket.on("registerDriver", async (driverId)=>{
+    socket.driverId = driverId;
     await locationService.setDriverSocket(driverId , socket.id)
   })
 
   socket.on("disconnect", async () => {
-    const driverId = await locationService.getDriverSocket(driverId);
-    if(driverId)
-       await locationService.delDriverSocket(driverId);
+    // const driverId = await locationService.getDriverSocket(driverId);
+    if(socket.driverId)
+       await locationService.delDriverSocket(socket.driverId);
   })
 
 }) 
