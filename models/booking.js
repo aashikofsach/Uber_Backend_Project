@@ -13,17 +13,21 @@ const bookingSchema = new mongoose.Schema({
   source: {
     longitude: {
       type: Number,
+      default: 0,
     },
     latitude: {
       type: Number,
+      default: 0,
     },
   },
   destination: {
     longitude: {
       type: Number,
+      default: 0,
     },
     latitude: {
       type: Number,
+      default: 0,
     },
   },
   fare: Number,

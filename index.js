@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const http = require("http");
 const mongoose = require("mongoose");
 const cors = require('cors');
+const SocketIo = require('socket.io');
+const locationService = require('./services/locationService');
 
 const authRoute = require("./routes/authRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
@@ -15,7 +17,14 @@ dotenv.config();
 
 const app = express();
 
-const server = http.createServer(app);
+const server = http.createServer(app); 
+
+const io =  SocketIo(server , {
+  cors : {
+    origin : "http://localhost:5500",
+    methods : ['GET', "POST"]
+  }
+})
 
 app.use(cors());
 app.use(express.json());
@@ -31,6 +40,14 @@ app.use("/api/passengers", passengerRoutes());
 server.listen(process.env.PORT, () => {
   console.log("server is lsitening on port", process.env.PORT);
 });
+
+io.on("connection",(socket)=> {
+
+  socket.on("registerDriver", async (driverId)=>{
+    await locationService.setDriverSocket(driverId , socket.id)
+  })
+
+})
 
 redisClient.on("connect", ()=>
 {
