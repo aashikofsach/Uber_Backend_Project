@@ -18,8 +18,8 @@ class LocationService {
       await redisClient.sendCommand([
         "GEOADDS",
         "drivers",
-        latitude.toString(),
         longitude.toString(),
+        latitude.toString(),
         driverId.toString(),
       ]);
     } catch (error) {}
@@ -28,8 +28,9 @@ class LocationService {
     const nearByDrivers = await redisClient.sendCommand([
       "GEORADIUS",
       "drivers",
-      latitude.toString(),
       longitude.toString(),
+      latitude.toString(),
+
       radiusKM.toString(),
       "km",
       "WITHCOORD",
