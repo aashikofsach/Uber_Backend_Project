@@ -19,7 +19,7 @@ const app = express();
 
 const server = http.createServer(app); 
 
-const io =  SocketIo(server , {
+export const io =  SocketIo(server , {
   cors : {
     origin : "http://localhost:5500",
     methods : ['GET', "POST"]
