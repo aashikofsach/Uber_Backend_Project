@@ -31,6 +31,11 @@ class LocationService {
       await redisClient.sadd(`notifiedDriversFor : ${bookingId}`, driverId)
 
   }
+
+  async getNotifiedDrivers(bookingId)
+  {
+    return await redisClient.smembers(`notifiedDriversFor : ${bookingId}`);
+  }
 }
 
 module.exports = new LocationService();

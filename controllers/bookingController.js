@@ -13,7 +13,7 @@ const createBooking = (io) => async (req, res) => {
     // find out there sokcet id and have to send the notification of that
 
     const nearByDrivers = await bookingService.findNearByDrivers(source);
-    // we need this array so that we have records oh which drivers we have to remove the ride request notification 
+    // we need this array so that we have records oh which drivers we have to remove the ride request notification
     const driversIds = [];
 
     for (const driver of nearByDrivers) {
@@ -31,12 +31,53 @@ const createBooking = (io) => async (req, res) => {
       }
     }
 
-    // below line we store the drivers availaible to currenet booking as key value mapping redis 
-    await locationService.storeNotifiedDrivers(booking._id , driversIds) ;
-    return res.status(201).send({data : booking , sucess : true , error : null , message : "booking created Sucessfully"})
+    // below line we store the drivers availaible to currenet booking as key value mapping redis
+    await locationService.storeNotifiedDrivers(booking._id, driversIds);
+    return res
+      .status(201)
+      .send({
+        data: booking,
+        sucess: true,
+        error: null,
+        message: "booking created Sucessfully",
+      });
   } catch (error) {
     return res.status(400).send(error.message);
   }
 };
 
-module.exports = { createBooking };
+const confirmBooking = (io) => async (req, res) => {
+  try {
+    const { bookingId } = req.body;
+    const booking = await bookingService.assignDriver(bookingId, req.user._id);
+    const notifiedDriversIds =
+      await locationService.getNotifiedDrivers(bookingId);
+
+    for (const driverId of notifiedDriversIds) {
+      const driverSocketId = await locationService.getDriverSocket(driverId);
+      if (driverSocketId) {
+        if (driverId === req.user._id)
+          io.to(driverSocketId).emit("rideConfirmed", {
+            bookingId,
+            driverId: req.user._id,
+          });
+      }
+      else
+      {
+        io.to(driverSocketId).emit("removeBooking", {bookingId})
+      }
+    }
+     return res
+      .status(201)
+      .send({
+        data: booking,
+        sucess: true,
+        error: null,
+        message: "booking confirmed Sucessfully",
+      });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+
+module.exports = { createBooking, confirmBooking };
