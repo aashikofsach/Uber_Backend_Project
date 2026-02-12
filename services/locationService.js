@@ -25,6 +25,12 @@ class LocationService {
 
     return nearByDrivers;
   }
+
+  async storeNotifiedDrivers(bookingId , driversIds){
+    for(const driverId of driversIds)
+      await redisClient.sadd(`notifiedDriversFor : ${bookingId}`, driverId)
+
+  }
 }
 
 module.exports = new LocationService();
