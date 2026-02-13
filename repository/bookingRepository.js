@@ -4,12 +4,12 @@ const findBooking = async (criteria) => {
   return await Booking.findOne(criteria);
 };
 
-const createBooking = async (bookingData)=>
-{
+const createBooking = async (bookingData) => {
   const booking = new Booking(bookingData);
-  await booking.save() ;
-  return booking ;
-  
-}
+  await booking.save();
+  return booking;
+};
 
-module.exports = { findBooking , createBooking};
+const updateBookingStatus = async () => {};
+
+module.exports = { findBooking, createBooking, updateBookingStatus };

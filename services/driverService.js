@@ -5,8 +5,8 @@ const driverRepository = require("../repository/driverRepository");
 const locationService = require("../services/locationService");
 
 const updateLocation = async (driverId, { latitude, longitude }) => {
-  latitude = parseFloat(latitude);
-  longitude = parseFloat(longitude);
+  const latitude = parseFloat(latitude);
+  const longitude = parseFloat(longitude);
 
   if (isNaN(latitude) || isNaN(longitude))
     throw new Error("Invalid Coordinates");
