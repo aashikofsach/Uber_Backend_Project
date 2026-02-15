@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const { getSecret } = require("../utils/secrets");
 
 const register = async (userData) => {
   let token ,user;
@@ -10,9 +11,9 @@ const register = async (userData) => {
     const savedData = await user.save();
 
     console.log("reached at 9", savedData);
-    console.log("reached at 12", process.env.JWT_SECRET);
+    console.log("reached at 12", getSecret("JWT_SECRET"));
 
-     token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+     token = jwt.sign({ id: user._id }, getSecret("JWT_SECRET"), {
       expiresIn: "7d",
     });
   } catch (error) {
@@ -29,7 +30,7 @@ const login = async ({ email, password }) => {
     throw new Error("Invalid Email or password");
   }
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: user._id }, getSecret("JWT_SECRET"), {
     expiresIn: "7d",
   });
 
