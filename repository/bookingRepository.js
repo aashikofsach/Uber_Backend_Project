@@ -10,6 +10,12 @@ const createBooking = async (bookingData) => {
   return booking;
 };
 
-const updateBookingStatus = async () => {};
+const updateBookingStatus = async (bookingId, driverId, status) => {
+  return Booking.findByIdAndUpdate(
+    { _id: bookingId, status: "pending" },
+    { driver: driverId, status: status },
+    { new: true },
+  );
+};
 
 module.exports = { findBooking, createBooking, updateBookingStatus };
