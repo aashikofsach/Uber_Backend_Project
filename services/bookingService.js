@@ -27,10 +27,11 @@ const findNearByDrivers = async (location, radius = 5) => {
     typeof location.latitude,
     typeof location.longitude,
   );
-  const latitude = parseFloat(location.latitude);
-  const longitude = parseFloat(location.longitude);
+  let latitude = parseFloat(location.latitude);
+  let longitude = parseFloat(location.longitude);
 
-  const radiusKM = parseFloat(radius);
+  let radiusKM = parseFloat(radius);
+  console.log(latitude , longitude , radiusKM)
 
   if (isNaN(latitude) || isNaN(longitude) || isNaN(radiusKM))
     throw new Error("Invalid Coordinates and radius ");

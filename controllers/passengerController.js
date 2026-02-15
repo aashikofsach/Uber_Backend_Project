@@ -19,7 +19,7 @@ const getPassengerBookings = async (req, res) => {
 const provideFeedback = async (req, res) => {
   try {
     const { bookingId, feedback, rating } = req.body;
-    passengerService.provideFeedback({
+    const result = await passengerService.provideFeedback({
       passengerId: req.user._id,
       bookingId,
       feedback,

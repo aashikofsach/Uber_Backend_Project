@@ -3,7 +3,7 @@ const passengerRepository = require("../repository/passengerRepository");
 
 const getPassengerBookings = async (passengerId) => {
   try {
-    const passengerDetail = passengerRepository.findPassengerById(passengerId);
+    const passengerDetail =await  passengerRepository.findPassengerById(passengerId);
     if (!passengerDetail) throw new Error("Passenger Not Found");
 
     return passengerDetail;
@@ -21,7 +21,7 @@ const provideFeedback = async ({passengerId, bookingId, rating, feedback}) => {
   if (!booking) throw new Error("Booking Not Found");
   booking.rating = rating;
   booking.feedback = feedback;
-  await booking.save();
+ return await booking.save();
 };
 
 module.exports = {

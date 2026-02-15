@@ -1,4 +1,4 @@
-const redisClient = require("../utils/redisClient");
+const {redisClient} = require("../utils/redisClient");
 
 class LocationService {
   async setDriverSocket(driverId, socketId) {
@@ -25,6 +25,7 @@ class LocationService {
     } catch (error) {}
   }
   async findNearByDrivers(latitude, longitude, radiusKM) {
+    console.log("reached at findNearBydrivers")
     const nearByDrivers = await redisClient.sendCommand([
       "GEORADIUS",
       "drivers",
@@ -36,6 +37,7 @@ class LocationService {
       "WITHCOORD",
     ]);
 
+    console.log("or yaha rak ", nearByDrivers)
     return nearByDrivers;
   }
 
