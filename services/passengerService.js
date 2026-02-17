@@ -7,7 +7,10 @@ const getPassengerBookings = async (passengerId) => {
     if (!passengerDetail) throw new Error("Passenger Not Found");
 
     return passengerDetail;
-  } catch (error) {}
+  } catch (error) {
+    console.log("This is the error in passengerService.js", error);
+
+  }
 };
 
 
